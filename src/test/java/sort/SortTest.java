@@ -9,9 +9,11 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SortsTest {
-    int N = 50;
-    int BOUND = 50;
+class SortTest {
+
+    int N = 10000;
+    int BOUND = 10000;
+    Sorter sorter = new PerformanceProxy();
 
     int[] original;
     int[] expected;
@@ -22,31 +24,36 @@ class SortsTest {
         original = new int[N];
         expected = new int[N];
         actual = new int[N];
-        setRandomElements(original, BOUND);
+
+        fillArrayWithRandomElements(original, BOUND);
         copyArray(original, expected);
         copyArray(original, actual);
+
+        Arrays.sort(expected);
     }
+
 
     @Test
     void bubbleSort() {
-        Arrays.sort(expected);
-        Sorts.bubble(actual);
+        sorter.setStrategy(Strategy.BUBBLE);
+        sorter.sort(actual);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void selectionSort() {
-        Arrays.sort(expected);
-        Sorts.selection(actual);
+        sorter.setStrategy(Strategy.SELECTION);
+        sorter.sort(actual);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void insertionSort() {
-        Arrays.sort(expected);
-        Sorts.insertion(actual);
+        sorter.setStrategy(Strategy.INSERTION);
+        sorter.sort(actual);
         assertArrayEquals(expected, actual);
     }
+
 
     @AfterEach
     void printArrays() {
@@ -55,7 +62,8 @@ class SortsTest {
         printArray("actual", actual);
     }
 
-    private void setRandomElements(int[] array, int bound) {
+
+    private void fillArrayWithRandomElements(int[] array, int bound) {
         Random random = new Random();
         int n = array.length;
         for (int i = 0; i < n; i++) {
