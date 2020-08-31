@@ -41,6 +41,13 @@ class SortsTest {
         assertArrayEquals(expected, actual);
     }
 
+    @Test
+    void insertionSort() {
+        Arrays.sort(expected);
+        Sorts.insertion(actual);
+        assertArrayEquals(expected, actual);
+    }
+
     @AfterEach
     void printArrays() {
         printArray("original", original);
