@@ -2,29 +2,34 @@ package sort;
 
 public class SorterImpl implements Sorter {
 
-    Strategy strategy;
+    private static final SorterImpl SINGLETON = new SorterImpl();
+    private Strategy strategy;
 
-    public SorterImpl() {
-        // TODO change default algorithm to Quick
-        this.strategy = Strategy.BUBBLE;
+    private SorterImpl() {
+        strategy = Strategy.BUBBLE;
     }
 
-    public SorterImpl(Strategy strategy) {
-        this.strategy = strategy;
+    public static SorterImpl getInstance() {
+        return SINGLETON;
+    }
+
+    public static SorterImpl getInstance(Strategy strategy) {
+        SINGLETON.strategy = strategy;
+        return SINGLETON;
     }
 
     @Override
     public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public String getNameOfStrategy() {
-        return strategy.name();
+        SINGLETON.strategy = strategy;
     }
 
     @Override
     public void sort(int[] array) {
         strategy.execute(array);
+    }
+
+    public String getNameOfStrategy() {
+        return strategy.name();
     }
 
 }

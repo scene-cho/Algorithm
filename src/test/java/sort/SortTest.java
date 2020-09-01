@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SortTest {
 
-    int N = 10000;
-    int BOUND = 10000;
-    Sorter sorter = new PerformanceProxy();
+    int N = 15000;
+    int BOUND = 15000;
+    Sorter sorter = PerformanceProxy.getInstance();
 
     int[] original;
     int[] expected;
@@ -22,14 +22,14 @@ class SortTest {
     @BeforeEach
     void setArrays() {
         original = new int[N];
-        expected = new int[N];
-        actual = new int[N];
-
         fillArrayWithRandomElements(original, BOUND);
-        copyArray(original, expected);
-        copyArray(original, actual);
 
+        expected = new int[N];
+        copyArray(original, expected);
         Arrays.sort(expected);
+
+        actual = new int[N];
+        copyArray(original, actual);
     }
 
 
@@ -54,6 +54,12 @@ class SortTest {
         assertArrayEquals(expected, actual);
     }
 
+    @Test
+    void mergeSort() {
+        sorter.setStrategy(Strategy.MERGE);
+        sorter.sort(actual);
+        assertArrayEquals(expected, actual);
+    }
 
     @AfterEach
     void printArrays() {

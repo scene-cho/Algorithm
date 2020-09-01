@@ -2,18 +2,20 @@ package sort;
 
 public class PerformanceProxy implements Sorter {
 
-    SorterImpl sorter;
+    private static final PerformanceProxy SINGLETON = new PerformanceProxy();
+    private final SorterImpl sorter;
 
-    public PerformanceProxy() {
-        sorter = new SorterImpl();
+    private PerformanceProxy() {
+        sorter = SorterImpl.getInstance();
     }
 
-    public PerformanceProxy(SorterImpl sorter) {
-        this.sorter = sorter;
+    public static PerformanceProxy getInstance() {
+        return SINGLETON;
     }
 
-    public PerformanceProxy(Strategy strategy) {
-        sorter = new SorterImpl(strategy);
+    public static PerformanceProxy getInstance(Strategy strategy) {
+        SINGLETON.sorter.setStrategy(strategy);
+        return SINGLETON;
     }
 
     @Override
