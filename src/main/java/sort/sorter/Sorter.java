@@ -1,4 +1,4 @@
-package sort;
+package sort.sorter;
 
 public interface Sorter {
 

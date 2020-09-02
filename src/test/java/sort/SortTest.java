@@ -3,17 +3,20 @@ package sort;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sort.sorter.PerformanceProxy;
+import sort.sorter.Sorter;
+import sort.sorter.Strategy;
 
 import java.util.Arrays;
-import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SortTest {
 
-    int N = 15000;
-    int BOUND = 15000;
+    int N = 10000;
+    int BOUND = 10000;
     Sorter sorter = PerformanceProxy.getInstance();
+    boolean printArrays = true;
 
     int[] original;
     int[] expected;
@@ -22,14 +25,14 @@ class SortTest {
     @BeforeEach
     void setArrays() {
         original = new int[N];
-        fillArrayWithRandomElements(original, BOUND);
+        ArrayHelper.fillArrayWithRandomElements(original, BOUND);
 
         expected = new int[N];
-        copyArray(original, expected);
+        ArrayHelper.copyArray(original, expected);
         Arrays.sort(expected);
 
         actual = new int[N];
-        copyArray(original, actual);
+        ArrayHelper.copyArray(original, actual);
     }
 
 
@@ -61,33 +64,26 @@ class SortTest {
         assertArrayEquals(expected, actual);
     }
 
+    @Test
+    void heapSort() {
+        sorter.setStrategy(Strategy.HEAP);
+        sorter.sort(actual);
+        assertArrayEquals(expected, actual);
+    }
+
+
     @AfterEach
     void printArrays() {
-        printArray("original", original);
-        printArray("expected", expected);
-        printArray("actual", actual);
-    }
+        if (sorter instanceof PerformanceProxy) {
+            PerformanceProxy performanceProxy = (PerformanceProxy) sorter;
+            performanceProxy.printLastRecord();
+        }
 
-
-    private void fillArrayWithRandomElements(int[] array, int bound) {
-        Random random = new Random();
-        int n = array.length;
-        for (int i = 0; i < n; i++) {
-            array[i] = random.nextInt(bound);
+        if (printArrays) {
+            ArrayHelper.printArray("original", original);
+            ArrayHelper.printArray("expected", expected);
+            ArrayHelper.printArray("actual", actual);
         }
     }
 
-    private void copyArray(int[] source, int[] destination) {
-        int n = source.length;
-        System.arraycopy(source, 0, destination, 0, n);
-    }
-
-    private void printArray(String title, int[] array) {
-        System.out.format("%-8s: ", title);
-        int n = array.length;
-        for (int i = 0; i < n - 1; i++) {
-            System.out.print(array[i] + " ");
-        }
-        System.out.println(array[n - 1]);
-    }
 }

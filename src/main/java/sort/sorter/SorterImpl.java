@@ -1,4 +1,4 @@
-package sort;
+package sort.sorter;
 
 public class SorterImpl implements Sorter {
 
@@ -28,7 +28,7 @@ public class SorterImpl implements Sorter {
         strategy.execute(array);
     }
 
-    public String getNameOfStrategy() {
+    public String getStrategyName() {
         return strategy.name();
     }
 
