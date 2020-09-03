@@ -1,31 +1,21 @@
-package sort;
+package sort.algorithm;
 
 import java.util.Random;
 
 public class ArrayHelper {
     public static void swap(int[] array, int i, int j) {
+        if (i == j) return;
+
         int temp = array[j];
         array[j] = array[i];
         array[i] = temp;
     }
 
     public static int[] createRandomArray(int n, int bound) {
-        int[] array = new int[n];
-        fillArrayWithRandomElements(array, bound);
-        return array;
-    }
-
-    public static void fillArrayWithRandomElements(int[] array, int bound) {
         Random random = new Random();
-        int n = array.length;
-        for (int i = 0; i < n; i++) {
-            array[i] = random.nextInt(bound);
-        }
-    }
-
-    public static void copyArray(int[] source, int[] destination) {
-        int n = source.length;
-        System.arraycopy(source, 0, destination, 0, n);
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) array[i] = random.nextInt(bound);
+        return array;
     }
 
     public static void printArray(String title, int[] array) {

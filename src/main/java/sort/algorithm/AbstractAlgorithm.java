@@ -1,6 +1,4 @@
-package sort.strategy;
-
-import sort.sorter.Algorithm;
+package sort.algorithm;
 
 public abstract class AbstractAlgorithm implements Algorithm {
 

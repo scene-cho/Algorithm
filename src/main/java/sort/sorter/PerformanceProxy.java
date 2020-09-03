@@ -44,10 +44,6 @@ public class PerformanceProxy implements Sorter {
         System.out.format("%s - %s ms\n", lastStrategyName, lastPerformanceTime);
     }
 
-    public String getLastStrategyName() {
-        return lastStrategyName;
-    }
-
     public Long getLastPerformanceTime() {
         return lastPerformanceTime;
     }

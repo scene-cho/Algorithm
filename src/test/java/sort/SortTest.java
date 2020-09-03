@@ -3,6 +3,7 @@ package sort;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sort.algorithm.ArrayHelper;
 import sort.sorter.PerformanceProxy;
 import sort.sorter.Sorter;
 import sort.sorter.Strategy;
@@ -13,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SortTest {
 
-    int N = 10000;
-    int BOUND = 10000;
+    int N = 10_000;
+    int BOUND = N;
     Sorter sorter = PerformanceProxy.getInstance();
     boolean printArrays = true;
 
@@ -24,15 +25,11 @@ class SortTest {
 
     @BeforeEach
     void setArrays() {
-        original = new int[N];
-        ArrayHelper.fillArrayWithRandomElements(original, BOUND);
+        original = ArrayHelper.createRandomArray(N, BOUND);
+        expected = Arrays.copyOf(original, N);
+        actual = Arrays.copyOf(original, N);
 
-        expected = new int[N];
-        ArrayHelper.copyArray(original, expected);
         Arrays.sort(expected);
-
-        actual = new int[N];
-        ArrayHelper.copyArray(original, actual);
     }
 
 
@@ -67,6 +64,13 @@ class SortTest {
     @Test
     void heapSort() {
         sorter.setStrategy(Strategy.HEAP);
+        sorter.sort(actual);
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void quickSort() {
+        sorter.setStrategy(Strategy.Quick);
         sorter.sort(actual);
         assertArrayEquals(expected, actual);
     }

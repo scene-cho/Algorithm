@@ -1,5 +1,6 @@
 package sort;
 
+import sort.algorithm.ArrayHelper;
 import sort.sorter.PerformanceProxy;
 import sort.sorter.Strategy;
 

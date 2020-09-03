@@ -1,6 +1,4 @@
-package sort.strategy;
-
-import sort.ArrayHelper;
+package sort.algorithm;
 
 public class Heap extends AbstractAlgorithm {
     @Override

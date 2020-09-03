@@ -1,10 +1,9 @@
-package sort.strategy;
+package sort.algorithm;
 
 public class Merge extends AbstractAlgorithm {
     @Override
     public void execute(int[] array) {
         setVariables(array);
-
         mergeSort(array, first, last);
     }
 

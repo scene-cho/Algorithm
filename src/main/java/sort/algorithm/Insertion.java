@@ -1,4 +1,4 @@
-package sort.strategy;
+package sort.algorithm;
 
 public class Insertion extends AbstractAlgorithm {
     @Override

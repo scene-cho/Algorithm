@@ -1,6 +1,4 @@
-package sort.strategy;
-
-import sort.ArrayHelper;
+package sort.algorithm;
 
 public class Selection extends AbstractAlgorithm {
     @Override
