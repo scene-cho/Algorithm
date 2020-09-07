@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class TraversalTest {
 
     int n = 10;
@@ -43,4 +41,8 @@ class TraversalTest {
         // TODO stack calc
     }
 
+    @Test
+    void levelOrder() {
+
+    }
 }

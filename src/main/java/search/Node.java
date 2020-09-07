@@ -1,7 +1,7 @@
 package search;
 
 public class Node {
-    private final int value;
+    final int value;
     Node parent;
     Node left;
     Node right;
