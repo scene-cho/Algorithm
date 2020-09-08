@@ -30,7 +30,19 @@ public class BinarySearchTree extends BinaryTree {
 
     @Override
     public Optional<Node> search(int value) {
-        return Optional.empty();
+        if (root == null) return Optional.empty();
+        return searchNode(root, value);
+    }
+
+    private Optional<Node> searchNode(Node root, int value) {
+        if (root == null) return Optional.empty();
+        if (value == root.value) return Optional.of(root);
+
+        Optional<Node> node;
+        if (value < root.value) node = searchNode(root.left, value);
+        else node = searchNode(root.right, value);
+
+        return node;
     }
 
     @Override
