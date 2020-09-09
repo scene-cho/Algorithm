@@ -32,6 +32,19 @@ class SortTest {
         Arrays.sort(expected);
     }
 
+    @AfterEach
+    void printArrays() {
+        if (sorter instanceof PerformanceProxy) {
+            PerformanceProxy performanceProxy = (PerformanceProxy) sorter;
+            performanceProxy.printLastRecord();
+        }
+
+        if (printArrays) {
+            ArrayHelper.printArray("original", original);
+            ArrayHelper.printArray("expected", expected);
+            ArrayHelper.printArray("actual", actual);
+        }
+    }
 
     @Test
     void bubbleSort() {
@@ -73,21 +86,6 @@ class SortTest {
         sorter.setStrategy(Strategy.Quick);
         sorter.sort(actual);
         assertArrayEquals(expected, actual);
-    }
-
-
-    @AfterEach
-    void printArrays() {
-        if (sorter instanceof PerformanceProxy) {
-            PerformanceProxy performanceProxy = (PerformanceProxy) sorter;
-            performanceProxy.printLastRecord();
-        }
-
-        if (printArrays) {
-            ArrayHelper.printArray("original", original);
-            ArrayHelper.printArray("expected", expected);
-            ArrayHelper.printArray("actual", actual);
-        }
     }
 
 }

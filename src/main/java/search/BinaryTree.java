@@ -6,22 +6,52 @@ public abstract class BinaryTree implements Tree {
     Node root;
 
     List<Node> inOrder() {
-        return null;
+        List<Node> ordered = new ArrayList<>();
+        inOrderNode(root, ordered);
+        return ordered;
+    }
+
+    private void inOrderNode(Node root, List<Node> ordered) {
+        if (root == null) return;
+
+        inOrderNode(root.left, ordered);
+        ordered.add(root);
+        inOrderNode(root.right, ordered);
     }
 
     List<Node> preOrder() {
-        return null;
+        List<Node> ordered = new ArrayList<>();
+        preOrderNode(root, ordered);
+        return ordered;
+    }
+
+    private void preOrderNode(Node root, List<Node> ordered) {
+        if (root == null) return;
+
+        ordered.add(root);
+        preOrderNode(root.left, ordered);
+        preOrderNode(root.right, ordered);
     }
 
     List<Node> postOrder() {
-        return null;
+        List<Node> ordered = new ArrayList<>();
+        postOrderNode(root, ordered);
+        return ordered;
     }
 
-    List<List<Node>> levelOrder(BinaryTree bt) {
+    private void postOrderNode(Node root, List<Node> ordered) {
+        if (root == null) return;
+
+        postOrderNode(root.left, ordered);
+        postOrderNode(root.right, ordered);
+        ordered.add(root);
+    }
+
+    List<List<Node>> levelOrder() {
         List<List<Node>> tree = new ArrayList<>();
 
         Queue<Node> station = new LinkedList<>();
-        station.add(bt.root);
+        station.add(root);
 
         while (hasNestLevel(station)) {
             List<Node> level = fillLevel(station);
@@ -62,12 +92,41 @@ public abstract class BinaryTree implements Tree {
         return null;
     }
 
-    Node successor(Node current) {
-        return null;
+    Optional<Node> successor(Node standard) {
+        if (standard == null) return Optional.empty();
+
+        Node path;
+        Node result;
+
+        if (standard.right != null) {
+            path = standard.right;
+            result = path;
+
+            while (path.left != null) {
+                path = path.left;
+                result = path;
+            }
+
+            return Optional.of(result);
+        }
+
+        path = root;
+        result = null;
+
+        while (!path.equals(standard)) {
+            while (path.value > standard.value) {
+                result = path;
+                path = path.left;
+            }
+            while (path.value < standard.value) {
+                path = path.right;
+            }
+        }
+        return Optional.ofNullable(result);
     }
 
-    Node predecessor(Node current) {
-        return null;
+    Optional<Node> predecessor(Node standard) {
+        return Optional.empty();
     }
 
 }
