@@ -53,7 +53,7 @@ public class TreeHelper {
     public static void printTree(BinaryTree bt) {
         List<List<Node>> lists = bt.levelOrder();
 
-        // TODO format commit
+        // TODO format
         int nodeWidth = 3;
         String letterSpaceSymbol = " ";
         String lineSpaceSymbol = "\n";
