@@ -1,6 +1,16 @@
 package sort.algorithm;
 
 public class Insertion extends AbstractAlgorithm {
+
+    private static final Insertion SINGLETON = new Insertion();
+
+    private Insertion() {
+    }
+
+    public static Insertion getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void execute(int[] array) {
         setVariables(array);

@@ -1,6 +1,16 @@
 package sort.algorithm;
 
 public class Selection extends AbstractAlgorithm {
+
+    private static final Selection SINGLETON = new Selection();
+
+    private Selection() {
+    }
+
+    public static Selection getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void execute(int[] array) {
         setVariables(array);

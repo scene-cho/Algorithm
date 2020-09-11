@@ -83,7 +83,7 @@ class SortTest {
 
     @Test
     void quickSort() {
-        sorter.setStrategy(Strategy.Quick);
+        sorter.setStrategy(Strategy.QUICK);
         sorter.sort(actual);
         assertArrayEquals(expected, actual);
     }

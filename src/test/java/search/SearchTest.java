@@ -6,45 +6,51 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SearchTest {
 
-    final int N = 10;
+    final int MIN_N = 7;
+    final int MAX_N = 15;
+    int n;
 
-    BinarySearchTree bst;
-    List<Integer> randomNumberStore;
+    BinaryTree bt;
+    List<Integer> numberStore;
 
     @BeforeEach
-    void setBst() {
-        randomNumberStore = TreeHelper.createRandomNumberStore(N);
-        bst = TreeHelper.createBST(randomNumberStore);
+    void setBinaryTree() {
+        n = MIN_N + new Random().nextInt(MAX_N - MIN_N + 1);
+        numberStore = TreeHelper.createUniqueRandomNumberStore(n);
+        bt = TreeHelper.createBST(numberStore);
     }
 
     @AfterEach
     void printTree() {
-        TreeHelper.printTree(bst);
+        TreeHelper.printTree(bt);
     }
 
     @Test
     void min() {
-        // TODO
+        Node min = bt.min();
+        assertEquals(0, min.value);
     }
 
     @Test
     void max() {
-        // TODO
+        Node max = bt.max();
+        assertEquals(n - 1, max.value);
     }
 
     @Test
     void successor() {
-        int standard = TreeHelper.getExistentValue(randomNumberStore);
+        int standard = TreeHelper.getExistentValue(numberStore);
 
-        Node standardNode = bst.search(standard).orElse(null);
-        Node successor = bst.successor(standardNode).orElse(null);
+        Node standardNode = bt.search(standard).orElse(null);
+        Node successor = bt.successor(standardNode).orElse(null);
 
-        if (isMax(standard, randomNumberStore)) {
+        if (isMaxValueInNumberStore(standard, numberStore)) {
             assertNotNull(standardNode);
             assertNull(successor);
             return;
@@ -58,15 +64,8 @@ public class SearchTest {
         assertEquals(expected, actual);
     }
 
-    private boolean isMax(int standard, List<Integer> numberStore) {
-        Integer max = numberStore.stream().max(Comparator.naturalOrder()).orElse(null);
-        if (max == null) return false;
+    private boolean isMaxValueInNumberStore(int standard, List<Integer> numberStore) {
+        Integer max = numberStore.stream().max(Comparator.naturalOrder()).orElseThrow();
         return max.equals(standard);
     }
-
-    @Test
-    void predecessor() {
-        // TODO
-    }
-
 }

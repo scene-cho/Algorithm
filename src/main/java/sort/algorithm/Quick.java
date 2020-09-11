@@ -1,6 +1,16 @@
 package sort.algorithm;
 
 public class Quick extends AbstractAlgorithm {
+
+    private static final Quick SINGLETON = new Quick();
+
+    private Quick() {
+    }
+
+    public static Quick getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void execute(int[] array) {
         setVariables(array);

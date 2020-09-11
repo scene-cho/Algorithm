@@ -1,6 +1,16 @@
 package sort.algorithm;
 
 public class Bubble extends AbstractAlgorithm {
+
+    private static final Bubble SINGLETON = new Bubble();
+
+    private Bubble() {
+    }
+
+    public static Bubble getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void execute(int[] array) {
         setVariables(array);

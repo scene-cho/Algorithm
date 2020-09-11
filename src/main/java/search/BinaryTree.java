@@ -3,9 +3,10 @@ package search;
 import java.util.*;
 
 public abstract class BinaryTree implements Tree {
+
     Node root;
 
-    List<Node> inOrder() {
+    public List<Node> inOrder() {
         List<Node> ordered = new ArrayList<>();
         inOrderNode(root, ordered);
         return ordered;
@@ -19,7 +20,7 @@ public abstract class BinaryTree implements Tree {
         inOrderNode(root.right, ordered);
     }
 
-    List<Node> preOrder() {
+    public List<Node> preOrder() {
         List<Node> ordered = new ArrayList<>();
         preOrderNode(root, ordered);
         return ordered;
@@ -33,7 +34,7 @@ public abstract class BinaryTree implements Tree {
         preOrderNode(root.right, ordered);
     }
 
-    List<Node> postOrder() {
+    public List<Node> postOrder() {
         List<Node> ordered = new ArrayList<>();
         postOrderNode(root, ordered);
         return ordered;
@@ -47,7 +48,7 @@ public abstract class BinaryTree implements Tree {
         ordered.add(root);
     }
 
-    List<List<Node>> levelOrder() {
+    public List<List<Node>> levelOrder() {
         List<List<Node>> tree = new ArrayList<>();
 
         Queue<Node> station = new LinkedList<>();
@@ -76,42 +77,53 @@ public abstract class BinaryTree implements Tree {
     }
 
     private void fillStationWithChildren(Queue<Node> station, List<Node> level) {
-        for (Node inLevel : level) {
-            Node left = (inLevel != null) ? inLevel.left : null;
-            Node right = (inLevel != null) ? inLevel.right : null;
+        for (Node node : level) {
+            Node left = (node != null) ? node.left : null;
+            Node right = (node != null) ? node.right : null;
             station.add(left);
             station.add(right);
         }
     }
 
-    Node min() {
-        return null;
+    public int count() {
+        return inOrder().size();
     }
 
-    Node max() {
-        return null;
-    }
-
-    Optional<Node> successor(Node standard) {
-        if (standard == null) return Optional.empty();
-
-        Node path;
-        Node result;
-
-        if (standard.right != null) {
-            path = standard.right;
-            result = path;
-
-            while (path.left != null) {
-                path = path.left;
-                result = path;
-            }
-
-            return Optional.of(result);
+    public Node min() {
+        Node finder = root;
+        while (finder.left != null) {
+            finder = finder.left;
         }
+        return finder;
+    }
 
-        path = root;
-        result = null;
+    public Node max() {
+        Node finder = root;
+        while (finder.right != null) {
+            finder = finder.right;
+        }
+        return finder;
+    }
+
+    public Optional<Node> successor(Node standard) {
+        if (standard == null) throw new IllegalArgumentException();
+
+        if (standard.right != null)
+            return findSuccessorInSubTree(standard);
+        else
+            return findSuccessorFromRoot(standard);
+    }
+
+    private Optional<Node> findSuccessorInSubTree(Node standard) {
+        Node successor = standard.right;
+        while (successor.left != null)
+            successor = successor.left;
+        return Optional.of(successor);
+    }
+
+    private Optional<Node> findSuccessorFromRoot(Node standard) {
+        Node result = null;
+        Node path = root;
 
         while (!path.equals(standard)) {
             while (path.value > standard.value) {
@@ -123,10 +135,6 @@ public abstract class BinaryTree implements Tree {
             }
         }
         return Optional.ofNullable(result);
-    }
-
-    Optional<Node> predecessor(Node standard) {
-        return Optional.empty();
     }
 
 }

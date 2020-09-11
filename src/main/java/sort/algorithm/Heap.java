@@ -1,6 +1,16 @@
 package sort.algorithm;
 
 public class Heap extends AbstractAlgorithm {
+
+    private static final Heap SINGLETON = new Heap();
+
+    private Heap() {
+    }
+
+    public static Heap getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void execute(int[] array) {
         setVariables(array);

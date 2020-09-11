@@ -1,6 +1,16 @@
 package sort.algorithm;
 
 public class Merge extends AbstractAlgorithm {
+
+    private static final Merge SINGLETON = new Merge();
+
+    private Merge() {
+    }
+
+    public static Merge getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void execute(int[] array) {
         setVariables(array);

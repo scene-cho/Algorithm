@@ -13,15 +13,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BinarySearchTreeTest {
 
-    final int N = 10;
+    final int MIN_N = 7;
+    final int MAX_N = 15;
+    int n;
 
     BinarySearchTree bst;
-    List<Integer> randomNumberStore;
+    List<Integer> numberStore;
 
     @BeforeEach
     void setBst() {
-        randomNumberStore = TreeHelper.createRandomNumberStore(N);
-        bst = TreeHelper.createBST(randomNumberStore);
+        n = MIN_N + new Random().nextInt(MAX_N - MIN_N + 1);
+        numberStore = TreeHelper.createUniqueRandomNumberStore(n);
+        bst = TreeHelper.createBST(numberStore);
     }
 
     @AfterEach
@@ -31,7 +34,7 @@ class BinarySearchTreeTest {
 
     @Test
     void insert() {
-        List<Integer> expected = new ArrayList<>(List.copyOf(randomNumberStore));
+        List<Integer> expected = new ArrayList<>(List.copyOf(numberStore));
         expected.sort(Comparator.naturalOrder());
 
         List<Node> ordered = bst.inOrder();
@@ -42,32 +45,31 @@ class BinarySearchTreeTest {
 
     @Test
     void search() {
-        int existentValue = TreeHelper.getExistentValue(randomNumberStore);
+        int existentValue = TreeHelper.getExistentValue(numberStore);
         Node foundNode = bst.search(existentValue).orElse(null);
         assertNotNull(foundNode);
         assertEquals(existentValue, foundNode.value);
 
-        int nonExistentValue = TreeHelper.getNonExistentValue(randomNumberStore);
+        int nonExistentValue = TreeHelper.getNonExistentValue(numberStore);
         Node nullNode = bst.search(nonExistentValue).orElse(null);
         assertNull(nullNode);
     }
 
     @Test
     void delete() {
-        Random random = new Random();
-        int randomIndex = random.nextInt(N);
+        int countBefore = bst.count();
+        assertEquals(n, countBefore);
 
-        int existentValue = 7;
-//        randomNumberStore.get(randomIndex);
-        Node foundNode = bst.delete(existentValue).orElse(null);
-        assertNotNull(foundNode);
-        assertEquals(existentValue, foundNode.value);
+        int targetValue = TreeHelper.getExistentValue(numberStore);
+        Node deleted = bst.delete(targetValue).orElse(null);
+        assertNotNull(deleted);
+        assertEquals(targetValue, deleted.value);
 
-        int nonExistentValue;
-        do nonExistentValue = random.nextInt(N * 10);
-        while (randomNumberStore.contains(nonExistentValue));
-        Node nullNode = bst.delete(nonExistentValue).orElse(null);
-        assertNull(nullNode);
+        int countAfter = bst.count();
+        assertEquals(n - 1, countAfter);
+        Node nonExistent = bst.delete(targetValue).orElse(null);
+        assertNull(nonExistent);
+
     }
 
 }

@@ -48,24 +48,63 @@ public class BinarySearchTree extends BinaryTree {
 
     @Override
     public Optional<Node> delete(int value) {
-        // TODO real
-        Node node = search(value).orElse(null);
-        if (node == null) return Optional.empty();
+        Node target = search(value).orElse(null);
+        if (target == null) return Optional.empty();
 
-        Node successor = successor(node).orElse(null);
-        if (successor == null) {
-            if (node.left == null) {
-                node.parent.right = null;
-            } else {
-                node.parent.right = node.left;
-            }
+        if (hasNoChild(target)) {
+            replaceNodeInTree(target, null);
+        } else if (hasOnlyChild(target)) {
+            Node onlyChild = (target.left != null) ? target.left : target.right;
+            replaceNodeInTree(target, onlyChild);
         } else {
-            if (node.parent.left == node) {
-                node.parent.left = successor;
-            } else {
-                node.parent.right = successor;
-            }
+            Node successor = successor(target).orElseThrow();
+            replaceNodeInTree(successor, null);
+            replaceNodeInTree(target, successor);
+            adoptChildren(target, successor);
         }
-        return Optional.of(node);
+        return Optional.of(target);
+    }
+
+    private boolean hasNoChild(Node node) {
+        return (node.left == null) && (node.right == null);
+    }
+
+    private boolean hasTwoChildren(Node node) {
+        return (node.left != null) && (node.right != null);
+    }
+
+    private boolean hasOnlyChild(Node node) {
+        return (!hasNoChild(node)) && (!hasTwoChildren(node));
+    }
+
+    private void adoptChildren(Node from, Node to) {
+        if (from.left != null) {
+            from.left.parent = to;
+            to.left = from.left;
+        }
+        if (from.right != null) {
+            from.right.parent = to;
+            Node temp = to.right;
+            to.right = from.right;
+            Node finder = to.right;
+            while (finder.left != null)
+                finder = finder.left;
+            finder.left = temp;
+        }
+    }
+
+    private void replaceNodeInTree(Node node, Node substitute) {
+        if (isRoot(node)) {
+            root = substitute;
+        } else {
+            if (node.parent.left == node) node.parent.left = substitute;
+            else node.parent.right = substitute;
+
+            if (substitute != null) substitute.parent = node.parent;
+        }
+    }
+
+    private boolean isRoot(Node node) {
+        return node.parent == null;
     }
 }

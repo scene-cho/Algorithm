@@ -4,8 +4,8 @@ package sort.sorter;
 import sort.algorithm.*;
 
 public enum Strategy {
-    // TODO make Singleton
-    BUBBLE(new Bubble()), SELECTION(new Selection()), INSERTION(new Insertion()), MERGE(new Merge()), HEAP(new Heap()), Quick(new Quick());
+    BUBBLE(Bubble.getInstance()), SELECTION(Selection.getInstance()), INSERTION(Insertion.getInstance()),
+    MERGE(Merge.getInstance()), HEAP(Heap.getInstance()), QUICK(Quick.getInstance());
 
     private final Algorithm algorithm;
 
